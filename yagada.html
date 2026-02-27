@@ -2,596 +2,753 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>야가다</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;700&display=swap');
+:root {
+  --bg:#f5f0e8; --fg:#1a1a1a; --acc:#e63946; --muted:#9e9e9e; --card:#fff; --border:#e0d9ce; --green:#2ecc71;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--fg);font-family:'Noto Sans KR',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden;}
+h1{font-family:'Black Han Sans',sans-serif;font-size:2.8rem;letter-spacing:-1px;}
+.screen{display:none;width:100%;max-width:480px;min-height:100vh;flex-direction:column;align-items:center;padding:36px 20px;}
+.screen.active{display:flex;}
+.sub{font-size:.82rem;color:var(--muted);letter-spacing:3px;text-transform:uppercase;}
+.gap{display:flex;flex-direction:column;gap:10px;width:100%;}
+.btn{padding:15px 24px;border:2px solid var(--fg);background:var(--fg);color:var(--bg);font-family:'Black Han Sans',sans-serif;font-size:1.05rem;cursor:pointer;transition:all .15s;letter-spacing:1px;}
+.btn:active{transform:scale(.97);}
+.btn:hover{background:var(--acc);border-color:var(--acc);}
+.btn.out{background:transparent;color:var(--fg);}
+.btn.out:hover{background:var(--fg);color:var(--bg);}
+.btn.acc{background:var(--acc);border-color:var(--acc);}
 
-  :root {
-    --bg: #f5f0e8;
-    --fg: #1a1a1a;
-    --accent: #e63946;
-    --muted: #9e9e9e;
-    --card: #ffffff;
-    --border: #e0d9ce;
-    --green: #2ecc71;
-  }
+/* ONBOARDING */
+#ob{justify-content:center;gap:22px;text-align:center;}
+.logos{display:flex;gap:14px;justify-content:center;}
+.ls{width:40px;height:40px;animation:fl 2s ease-in-out infinite;}
+.ls:nth-child(2){animation-delay:.25s}.ls:nth-child(3){animation-delay:.5s}.ls:nth-child(4){animation-delay:.75s}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.inp{width:100%;padding:15px;border:2px solid var(--fg);background:transparent;font-family:'Noto Sans KR',sans-serif;font-size:1rem;outline:none;text-align:center;}
+.inp:focus{border-color:var(--acc);}
+.inp::placeholder{color:var(--muted);}
+.divider{width:100%;display:flex;align-items:center;gap:10px;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border);}
+.divider span{font-size:.75rem;color:var(--muted);}
+.sbtn{width:100%;padding:13px;border:2px solid var(--border);background:var(--card);font-family:'Noto Sans KR',sans-serif;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .15s;font-weight:700;}
+.sbtn:hover{border-color:var(--fg);}
+.sbtn.kakao{background:#FEE500;border-color:#FEE500;color:#3A1D1D;}
+.sbtn.google{background:#fff;border-color:#ddd;}
+.sbtn.apple{background:#000;border-color:#000;color:#fff;}
+.skip{font-size:.78rem;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+/* HOME */
+#home{justify-content:center;gap:18px;text-align:center;}
+.ubadge{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--card);border:2px solid var(--border);width:100%;justify-content:space-between;}
+.uname{font-family:'Black Han Sans',sans-serif;font-size:1rem;}
+.urank{font-size:.75rem;color:var(--acc);font-weight:700;}
+.rules{width:100%;background:var(--card);border:2px solid var(--border);padding:14px 16px;text-align:left;}
+.rt{font-family:'Black Han Sans',sans-serif;font-size:.88rem;margin-bottom:8px;letter-spacing:1px;}
+.ri{display:flex;gap:8px;font-size:.78rem;color:var(--muted);line-height:1.5;margin-bottom:4px;}
+.ri:last-child{margin-bottom:0;}
+.rd{color:var(--acc);font-weight:700;flex-shrink:0;}
 
-  body {
-    background: var(--bg);
-    color: var(--fg);
-    font-family: 'Noto Sans KR', sans-serif;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-x: hidden;
-  }
+/* GAME */
+#game{padding:14px;gap:8px;}
+.gh{width:100%;display:flex;justify-content:space-between;align-items:flex-start;}
+.si{font-family:'Black Han Sans',sans-serif;font-size:1.3rem;}
+.cd{font-family:'Black Han Sans',sans-serif;font-size:1.1rem;text-align:right;}
+.csub{font-size:.68rem;color:var(--muted);text-align:right;}
+.pbar{width:100%;height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+.pfill{height:100%;background:var(--acc);transition:width .25s;border-radius:3px;}
+.plabel{display:flex;justify-content:space-between;font-size:.68rem;color:var(--muted);margin-top:3px;}
+.lrank{width:100%;background:var(--fg);color:var(--bg);padding:8px 14px;display:flex;justify-content:space-between;align-items:center;}
+.lrl{font-size:.7rem;letter-spacing:1px;opacity:.7;}
+.lrv{font-family:'Black Han Sans',sans-serif;font-size:1rem;color:#f4c542;}
+.tbox{width:100%;background:var(--card);border:2px solid var(--border);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;}
+.tlabel{font-size:.68rem;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
+.tname{font-family:'Black Han Sans',sans-serif;font-size:2rem;margin-top:3px;}
+#tsvg{width:88px;height:88px;flex-shrink:0;}
+.hint{font-size:.73rem;color:var(--muted);text-align:center;animation:blink 1.8s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.cwrap{width:100%;border:2px solid var(--border);background:var(--card);touch-action:none;position:relative;cursor:crosshair;-webkit-user-select:none;user-select:none;}
+#cv{display:block;width:100%;height:250px;touch-action:none;}
+.cov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;font-family:'Black Han Sans',sans-serif;font-size:3.5rem;opacity:0;transition:opacity .1s;}
+.cov.show{opacity:1;}
+.cov.ok{color:var(--green);}
+.cov.fail{color:var(--acc);}
+.gst{width:100%;display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);}
+.sv{font-family:'Black Han Sans',sans-serif;color:var(--fg);font-size:.92rem;}
+.td{font-family:'Black Han Sans',sans-serif;font-size:.92rem;color:var(--fg);}
+.backbtn{font-size:.75rem;color:var(--muted);background:none;border:none;cursor:pointer;letter-spacing:1px;text-transform:uppercase;padding:4px;margin-top:2px;}
+.backbtn:hover{color:var(--fg);}
 
-  h1 {
-    font-family: 'Black Han Sans', sans-serif;
-    font-size: 2.8rem;
-    letter-spacing: -1px;
-    color: var(--fg);
-  }
+/* RESULT */
+#result{justify-content:center;gap:16px;text-align:center;}
+.rs{font-family:'Black Han Sans',sans-serif;font-size:5rem;color:var(--acc);line-height:1;}
+.rb{padding:10px 20px;background:var(--fg);color:var(--bg);font-family:'Black Han Sans',sans-serif;font-size:1.1rem;letter-spacing:2px;}
 
-  .screen {
-    display: none;
-    width: 100%;
-    max-width: 480px;
-    min-height: 100vh;
-    flex-direction: column;
-    align-items: center;
-    padding: 40px 24px;
-  }
-  .screen.active { display: flex; }
+/* RANKING */
+#ranking{gap:14px;}
+.rtabs{display:flex;width:100%;border:2px solid var(--fg);}
+.rtab{flex:1;padding:11px;text-align:center;font-family:'Black Han Sans',sans-serif;font-size:.88rem;cursor:pointer;background:transparent;border:none;letter-spacing:1px;transition:all .15s;}
+.rtab.active{background:var(--fg);color:var(--bg);}
+.wl{font-size:.7rem;color:var(--muted);text-align:center;letter-spacing:1px;}
+.rlist{width:100%;display:flex;flex-direction:column;gap:5px;}
+.ri2{display:flex;align-items:center;gap:10px;padding:11px 13px;background:var(--card);border:2px solid var(--border);}
+.ri2.t1{border-color:#f4c542}.ri2.t2{border-color:#b0b0b0}.ri2.t3{border-color:#cd7f32}.ri2.me{border-color:var(--acc);background:#fff5f5;}
+.rn{font-family:'Black Han Sans',sans-serif;font-size:1.1rem;min-width:26px;color:var(--muted);}
+.ri2.t1 .rn{color:#f4c542}.ri2.t2 .rn{color:#b0b0b0}.ri2.t3 .rn{color:#cd7f32}.ri2.me .rn{color:var(--acc);}
+.rinfo{flex:1;}
+.rname{font-weight:700;font-size:.9rem;}
+.rdet{font-size:.68rem;color:var(--muted);margin-top:1px;}
+.rright{text-align:right;}
+.rsbadge{font-family:'Black Han Sans',sans-serif;font-size:.88rem;color:var(--acc);}
+.rtime{font-size:.68rem;color:var(--muted);margin-top:2px;}
+.empty{text-align:center;color:var(--muted);font-size:.85rem;padding:36px 16px;line-height:1.9;}
 
-  #home { justify-content: center; gap: 28px; text-align: center; }
+/* TUTORIAL */
+#tut{gap:18px;}
+.tstep{width:100%;background:var(--card);border:2px solid var(--border);padding:16px;display:flex;gap:12px;}
+.tsn{font-family:'Black Han Sans',sans-serif;font-size:1.8rem;color:var(--acc);line-height:1;min-width:34px;}
+.tsc h3{font-size:.92rem;font-weight:700;margin-bottom:3px;}
+.tsc p{font-size:.8rem;color:var(--muted);line-height:1.6;}
 
-  .logo-shapes { display: flex; gap: 14px; justify-content: center; }
-  .logo-shape { width: 36px; height: 36px; animation: float 2s ease-in-out infinite; }
-  .logo-shape:nth-child(2) { animation-delay: 0.25s; }
-  .logo-shape:nth-child(3) { animation-delay: 0.5s; }
-  .logo-shape:nth-child(4) { animation-delay: 0.75s; }
-  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-
-  .subtitle { font-size: 0.85rem; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; }
-
-  .btn-group { display: flex; flex-direction: column; gap: 10px; width: 100%; }
-
-  .btn {
-    padding: 15px 24px;
-    border: 2px solid var(--fg);
-    background: var(--fg);
-    color: var(--bg);
-    font-family: 'Black Han Sans', sans-serif;
-    font-size: 1.05rem;
-    cursor: pointer;
-    transition: all 0.15s;
-    letter-spacing: 1px;
-  }
-  .btn:active { transform: scale(0.97); }
-  .btn:hover { background: var(--accent); border-color: var(--accent); }
-  .btn.outline { background: transparent; color: var(--fg); }
-  .btn.outline:hover { background: var(--fg); color: var(--bg); }
-
-  #tutorial { gap: 20px; }
-  .tutorial-step {
-    width: 100%; background: var(--card); border: 2px solid var(--border);
-    padding: 18px; display: flex; gap: 14px; align-items: flex-start;
-  }
-  .step-num { font-family: 'Black Han Sans', sans-serif; font-size: 1.8rem; color: var(--accent); line-height: 1; min-width: 36px; }
-  .step-content h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
-  .step-content p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
-
-  #game { padding: 16px 14px; gap: 10px; }
-
-  .game-header { width: 100%; display: flex; justify-content: space-between; align-items: flex-start; }
-  .stage-info { font-family: 'Black Han Sans', sans-serif; font-size: 1.3rem; }
-  .count-display { font-family: 'Black Han Sans', sans-serif; font-size: 1.1rem; text-align: right; }
-  .count-sub { font-size: 0.7rem; color: var(--muted); text-align: right; }
-
-  .progress-bar { width: 100%; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
-  .progress-fill { height: 100%; background: var(--accent); transition: width 0.25s ease; border-radius: 3px; }
-  .progress-label { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--muted); margin-top: 3px; }
-
-  .stage-map { width: 100%; display: flex; flex-wrap: wrap; gap: 3px; }
-  .stage-dot { width: 9px; height: 9px; border-radius: 2px; background: var(--border); }
-  .stage-dot.done { background: var(--accent); }
-  .stage-dot.current { background: var(--fg); }
-
-  .target-shape-area {
-    width: 100%; background: var(--card); border: 2px solid var(--border);
-    padding: 12px 16px; display: flex; align-items: center; gap: 14px;
-  }
-  .target-label { font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
-  .target-shape-name { font-family: 'Black Han Sans', sans-serif; font-size: 1.3rem; margin-top: 2px; }
-  #target-shape-svg { width: 52px; height: 52px; flex-shrink: 0; }
-
-  .draw-hint { font-size: 0.75rem; color: var(--muted); text-align: center; letter-spacing: 1px; animation: blink 1.8s ease-in-out infinite; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-  .canvas-wrap { width: 100%; border: 2px solid var(--border); background: var(--card); cursor: crosshair; touch-action: none; position: relative; }
-  #draw-canvas { display: block; width: 100%; }
-  .canvas-overlay {
-    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-    pointer-events: none; font-family: 'Black Han Sans', sans-serif; font-size: 3rem; opacity: 0; transition: opacity 0.1s;
-  }
-  .canvas-overlay.show { opacity: 1; }
-  .canvas-overlay.ok { color: var(--green); }
-  .canvas-overlay.fail { color: var(--accent); }
-
-  .game-stats { width: 100%; display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--muted); }
-  .sim-value { font-family: 'Black Han Sans', sans-serif; color: var(--fg); font-size: 0.95rem; }
-
-  .back-btn { font-size: 0.78rem; color: var(--muted); background: none; border: none; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; padding: 6px; margin-top: 2px; }
-  .back-btn:hover { color: var(--fg); }
-
-  #result { justify-content: center; gap: 18px; text-align: center; }
-  .result-stage { font-family: 'Black Han Sans', sans-serif; font-size: 5rem; color: var(--accent); line-height: 1; }
-  .nickname-input {
-    width: 100%; padding: 14px 16px; border: 2px solid var(--fg);
-    background: transparent; font-family: 'Noto Sans KR', sans-serif; font-size: 1rem; outline: none; text-align: center;
-  }
-  .nickname-input:focus { border-color: var(--accent); }
-
-  #ranking { gap: 16px; }
-  .rank-tabs { display: flex; width: 100%; border: 2px solid var(--fg); }
-  .rank-tab {
-    flex: 1; padding: 11px; text-align: center; font-family: 'Black Han Sans', sans-serif;
-    font-size: 0.9rem; cursor: pointer; background: transparent; border: none; letter-spacing: 1px; transition: all 0.15s;
-  }
-  .rank-tab.active { background: var(--fg); color: var(--bg); }
-
-  .week-label { font-size: 0.72rem; color: var(--muted); text-align: center; letter-spacing: 1px; }
-
-  .rank-list { width: 100%; display: flex; flex-direction: column; gap: 5px; }
-  .rank-item { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: var(--card); border: 2px solid var(--border); }
-  .rank-item.top1 { border-color: #f4c542; }
-  .rank-item.top2 { border-color: #b0b0b0; }
-  .rank-item.top3 { border-color: #cd7f32; }
-
-  .rank-num { font-family: 'Black Han Sans', sans-serif; font-size: 1.2rem; min-width: 28px; color: var(--muted); }
-  .rank-item.top1 .rank-num { color: #f4c542; }
-  .rank-item.top2 .rank-num { color: #b0b0b0; }
-  .rank-item.top3 .rank-num { color: #cd7f32; }
-
-  .rank-info { flex: 1; }
-  .rank-name { font-weight: 700; font-size: 0.92rem; }
-  .rank-detail { font-size: 0.7rem; color: var(--muted); margin-top: 1px; }
-
-  .rank-stage-badge { font-family: 'Black Han Sans', sans-serif; font-size: 0.9rem; color: var(--accent); text-align: right; }
-  .rank-stage-badge span { display: block; font-family: 'Noto Sans KR', sans-serif; font-size: 0.65rem; color: var(--muted); font-weight: 400; }
-
-  .empty-rank { text-align: center; color: var(--muted); font-size: 0.88rem; padding: 40px 16px; line-height: 1.8; }
-
-  .flash-overlay { position: fixed; inset: 0; pointer-events: none; z-index: 999; opacity: 0; }
-  @keyframes flashAnim { 0%{opacity:1} 100%{opacity:0} }
-  .flash-overlay.good { background: rgba(46,204,113,0.22); animation: flashAnim 0.35s ease; }
-  .flash-overlay.bad { background: rgba(230,57,70,0.22); animation: flashAnim 0.35s ease; }
+/* FLASH */
+.flash{position:fixed;inset:0;pointer-events:none;z-index:999;opacity:0;}
+@keyframes fa{0%{opacity:1}100%{opacity:0}}
+.flash.good{background:rgba(46,204,113,.22);animation:fa .35s ease;}
+.flash.bad{background:rgba(230,57,70,.22);animation:fa .35s ease;}
 </style>
 </head>
 <body>
+<div class="flash" id="flash"></div>
 
-<div class="flash-overlay" id="flash"></div>
-
-<!-- HOME -->
-<div class="screen active" id="home">
-  <div class="logo-shapes">
-    <svg class="logo-shape" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="#1a1a1a"/></svg>
-    <svg class="logo-shape" viewBox="0 0 36 36"><polygon points="18,3 33,30 3,30" fill="#e63946"/></svg>
-    <svg class="logo-shape" viewBox="0 0 36 36"><rect x="3" y="3" width="30" height="30" fill="#1a1a1a"/></svg>
-    <svg class="logo-shape" viewBox="0 0 36 36"><polygon points="18,2 22,13 34,13 25,20 28,32 18,25 8,32 11,20 2,13 14,13" fill="#e63946"/></svg>
+<!-- ONBOARDING -->
+<div class="screen active" id="ob">
+  <div class="logos">
+    <svg class="ls" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="#1a1a1a"/></svg>
+    <svg class="ls" viewBox="0 0 40 40"><polygon points="20,3 37,34 3,34" fill="#e63946"/></svg>
+    <svg class="ls" viewBox="0 0 40 40"><rect x="3" y="3" width="34" height="34" fill="#1a1a1a"/></svg>
+    <svg class="ls" viewBox="0 0 40 40"><polygon points="20,2 24,14 37,14 27,21 31,34 20,26 9,34 13,21 3,14 16,14" fill="#e63946"/></svg>
   </div>
   <h1>야가다</h1>
-  <p class="subtitle">도형 그리기 게임</p>
-  <div class="btn-group" style="margin-top:8px;">
-    <button class="btn" onclick="startGame()">게임 시작</button>
-    <button class="btn outline" onclick="showScreen('tutorial')">튜토리얼</button>
-    <button class="btn outline" onclick="showRanking()">🏆 주간 랭킹</button>
+  <p class="sub">도형 그리기 게임</p>
+  <div class="gap" style="margin-top:4px;">
+    <p style="font-size:.82rem;color:var(--muted);text-align:center;">닉네임을 정해주세요</p>
+    <input class="inp" id="ob-nick" type="text" placeholder="닉네임 입력 (최대 8자)" maxlength="8">
+    <button class="btn" onclick="startWithNick()">시작하기 →</button>
   </div>
-  <p style="font-size:0.72rem; color:var(--muted); margin-top:20px;">총 50스테이지 · 최대 100만 개까지</p>
+  <div class="divider" style="margin-top:4px;"><span>또는 간편 로그인</span></div>
+  <div class="gap">
+    <button class="sbtn kakao" onclick="socialLogin('kakao')">
+      <svg width="20" height="20" viewBox="0 0 40 40"><ellipse cx="20" cy="20" rx="20" ry="20" fill="#3A1D1D"/><path d="M20 8C13.37 8 8 12.27 8 17.5c0 3.36 2.19 6.31 5.5 8.04L12.5 30l5.1-3.38c.79.11 1.6.18 2.4.18 6.63 0 12-4.27 12-9.5S26.63 8 20 8z" fill="#FEE500"/></svg>
+      카카오로 시작
+    </button>
+    <button class="sbtn google" onclick="socialLogin('google')">
+      <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.97 6.19C12.43 13.72 17.74 9.5 24 9.5z"/></svg>
+      Google로 시작
+    </button>
+    <button class="sbtn apple" onclick="socialLogin('apple')">
+      <svg width="18" height="18" viewBox="0 0 814 1000" fill="white"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 405.8 0 303.9 0 207.9 0 89.4 79.3 27.5 157.5 27.5c58 0 104.9 34.1 131.7 34.1 25.4 0 79.3-40.8 144.9-40.8 22.3 0 108.2 1.9 159.3 78.5zm-105.9 16.4C655.4 131 638 78.3 638 26.7 638 17.9 636.7 9 635.5.3c-5.2 2.6-14.4 7.5-21 12.9-40.3 33.6-70.4 85.2-70.4 135.5 0 8.5 1.3 17 2.6 25.6 5.2.7 11 1.9 16.2 1.9 47.1 0 90.2-28.4 112.3-65.4 4.5-7.8 7.1-19.4 7.1-25.6z"/></svg>
+      Apple로 시작
+    </button>
+  </div>
+  <button class="skip" onclick="skipLogin()" style="margin-top:8px;">게스트로 시작</button>
+</div>
+
+<!-- HOME -->
+<div class="screen" id="home">
+  <div class="logos" style="margin-bottom:4px;">
+    <svg class="ls" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="#1a1a1a"/></svg>
+    <svg class="ls" viewBox="0 0 40 40"><polygon points="20,3 37,34 3,34" fill="#e63946"/></svg>
+    <svg class="ls" viewBox="0 0 40 40"><rect x="3" y="3" width="34" height="34" fill="#1a1a1a"/></svg>
+    <svg class="ls" viewBox="0 0 40 40"><polygon points="20,2 24,14 37,14 27,21 31,34 20,26 9,34 13,21 3,14 16,14" fill="#e63946"/></svg>
+  </div>
+  <h1>야가다</h1>
+  <p class="sub">도형 그리기 게임</p>
+  <div class="ubadge">
+    <div><div style="font-size:.68rem;color:var(--muted);">플레이어</div><div class="uname" id="home-uname">–</div></div>
+    <div class="urank" id="home-urank">순위 불러오는 중...</div>
+  </div>
+  <div class="rules">
+    <div class="rt">📋 게임 규칙</div>
+    <div class="ri"><span class="rd">▶</span><span>도형을 그리면 손을 떼는 순간 자동 채점</span></div>
+    <div class="ri"><span class="rd">▶</span><span>스테이지마다 목표 개수를 채우면 다음 단계로!</span></div>
+    <div class="ri"><span class="rd">▶</span><span>같은 스테이지라면 <b>짧은 시간</b>으로 달성한 사람이 더 높은 순위</span></div>
+    <div class="ri"><span class="rd">▶</span><span>주간 랭킹은 매주 월요일 초기화</span></div>
+  </div>
+  <div class="gap">
+    <button class="btn" onclick="startGame()">게임 시작</button>
+    <button class="btn out" onclick="go('tut')">튜토리얼</button>
+    <button class="btn out" onclick="showRanking()">🏆 주간 랭킹</button>
+  </div>
+  <div id="home-preview" style="width:100%;margin-top:4px;"></div>
 </div>
 
 <!-- TUTORIAL -->
-<div class="screen" id="tutorial">
-  <div style="text-align:center; margin-bottom:8px;">
-    <h1>야가다</h1>
-    <p class="subtitle" style="margin-top:4px;">이렇게 하면 돼요</p>
-  </div>
-  <div class="tutorial-step">
-    <div class="step-num">1</div>
-    <div class="step-content"><h3>도형 확인</h3><p>상단에 그려야 할 도형이 표시돼요. ○ △ □ ★ 중 하나예요.</p></div>
-  </div>
-  <div class="tutorial-step">
-    <div class="step-num">2</div>
-    <div class="step-content"><h3>그리기</h3><p>캔버스에 손가락이나 마우스로 도형을 그리세요. 손을 떼면 자동으로 채점돼요!</p></div>
-  </div>
-  <div class="tutorial-step">
-    <div class="step-num">3</div>
-    <div class="step-content"><h3>단계 클리어</h3><p>목표 개수만큼 통과하면 다음 단계로! 총 50스테이지, 갈수록 더 많이 그려야 해요.</p></div>
-  </div>
-  <div class="tutorial-step">
-    <div class="step-num">4</div>
-    <div class="step-content"><h3>주간 랭킹</h3><p>이번 주 기록이 랭킹에 올라가요. 매주 월요일마다 새로 시작!</p></div>
-  </div>
-  <div class="btn-group" style="margin-top:8px;">
+<div class="screen" id="tut">
+  <div style="text-align:center;margin-bottom:4px;"><h1>야가다</h1><p class="sub" style="margin-top:4px;">이렇게 하면 돼요</p></div>
+  <div class="tstep"><div class="tsn">1</div><div class="tsc"><h3>도형 확인</h3><p>상단에 그려야 할 도형이 표시돼요. ○ △ □ ★ 중 하나예요.</p></div></div>
+  <div class="tstep"><div class="tsn">2</div><div class="tsc"><h3>그리기</h3><p>캔버스에 손가락이나 마우스로 도형을 그리세요. 손을 떼면 자동으로 채점!</p></div></div>
+  <div class="tstep"><div class="tsn">3</div><div class="tsc"><h3>단계 클리어</h3><p>목표 개수를 채우면 다음 스테이지! 총 50스테이지.</p></div></div>
+  <div class="tstep"><div class="tsn">4</div><div class="tsc"><h3>순위 경쟁</h3><p>같은 스테이지면 <b>더 짧은 시간</b>으로 클리어한 사람이 이겨요!</p></div></div>
+  <div class="gap" style="margin-top:4px;">
     <button class="btn" onclick="startGame()">시작하기!</button>
-    <button class="btn outline" onclick="showScreen('home')">돌아가기</button>
+    <button class="btn out" onclick="go('home')">돌아가기</button>
   </div>
 </div>
 
 <!-- GAME -->
 <div class="screen" id="game">
-  <div class="game-header">
+  <div class="gh">
     <div>
-      <div class="stage-info">STAGE <span id="stage-num">1</span> <span style="font-size:0.8rem;color:var(--muted);">/ 50</span></div>
-      <div style="font-size:0.72rem;color:var(--muted);margin-top:2px;">목표: <span id="target-count">3</span>개</div>
+      <div class="si">STAGE <span id="g-stage">1</span><span style="font-size:.8rem;color:var(--muted);"> / 50</span></div>
+      <div style="font-size:.68rem;color:var(--muted);margin-top:1px;">목표: <span id="g-target">3</span>개</div>
     </div>
     <div>
-      <div class="count-display"><span id="done-count">0</span> / <span id="need-count">3</span></div>
-      <div class="count-sub">완료</div>
+      <div class="cd"><span id="g-done">0</span> / <span id="g-need">3</span></div>
+      <div class="csub">완료</div>
     </div>
   </div>
-
   <div>
-    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-    <div class="progress-label">
-      <span id="progress-pct">0%</span>
-      <span>통과: <b id="pass-count">0</b></span>
+    <div class="pbar"><div class="pfill" id="g-pfill" style="width:0%"></div></div>
+    <div class="plabel"><span id="g-ppct">0%</span><span>통과: <b id="g-pass">0</b></span></div>
+  </div>
+  <div class="lrank">
+    <span class="lrl">🔴 실시간 내 순위</span>
+    <span class="lrv" id="g-lrank">–</span>
+  </div>
+  <div class="tbox">
+    <div>
+      <div class="tlabel">지금 그려야 할 도형</div>
+      <div class="tname" id="g-sname">동그라미</div>
     </div>
+    <svg id="tsvg" viewBox="0 0 88 88"></svg>
   </div>
-
-  <div class="stage-map" id="stage-map"></div>
-
-  <div class="target-shape-area">
-    <div style="flex:1">
-      <div class="target-label">지금 그려야 할 도형</div>
-      <div class="target-shape-name" id="shape-name">동그라미</div>
-    </div>
-    <svg id="target-shape-svg" viewBox="0 0 52 52" width="52" height="52"></svg>
+  <div class="hint">✏️ 그리면 자동 채점!</div>
+  <div class="cwrap" id="cwrap">
+    <canvas id="cv" height="250"></canvas>
+    <div class="cov" id="cov"></div>
   </div>
-
-  <div class="draw-hint">✏️ 그리면 자동 채점!</div>
-
-  <div class="canvas-wrap" id="canvas-wrap">
-    <canvas id="draw-canvas" height="260"></canvas>
-    <div class="canvas-overlay" id="canvas-overlay"></div>
+  <div class="gst">
+    <div>유사도: <span class="sv" id="g-sim">–</span></div>
+    <div>⏱ <span class="td" id="g-time">0:00</span></div>
   </div>
-
-  <div class="game-stats">
-    <div>유사도: <span class="sim-value" id="sim-val">–</span></div>
-    <div>총 시도: <b id="total-drawn">0</b></div>
-  </div>
-
-  <button class="back-btn" onclick="confirmQuit()">그만하기</button>
+  <button class="backbtn" onclick="quitGame()">그만하기 → 홈</button>
 </div>
 
 <!-- RESULT -->
 <div class="screen" id="result">
-  <p class="subtitle">게임 종료</p>
+  <p class="sub">게임 종료</p>
   <h1>야가다</h1>
-  <div style="margin:12px 0;">
-    <div style="font-size:0.82rem;color:var(--muted);">도달한 스테이지</div>
-    <div class="result-stage" id="result-stage">–</div>
-    <div style="font-size:0.82rem;color:var(--muted);margin-top:6px;">총 <span id="result-total" style="font-weight:700;color:var(--fg);">0</span>개 그림</div>
+  <div style="margin:10px 0;display:flex;flex-direction:column;align-items:center;gap:6px;">
+    <div style="font-size:.8rem;color:var(--muted);">도달한 스테이지</div>
+    <div class="rs" id="r-stage">–</div>
+    <div style="font-size:.8rem;color:var(--muted);">소요 시간: <b id="r-time" style="color:var(--fg);">–</b></div>
+    <div style="font-size:.8rem;color:var(--muted);">총 <span id="r-total" style="font-weight:700;color:var(--fg);">0</span>개 그림</div>
   </div>
-  <p style="font-size:0.82rem;color:var(--muted);">닉네임 입력 후 주간 랭킹에 등록!</p>
-  <input class="nickname-input" id="nickname-input" type="text" placeholder="닉네임 (최대 8자)" maxlength="8">
-  <div class="btn-group">
-    <button class="btn" onclick="saveRanking()">🏆 랭킹 등록</button>
-    <button class="btn outline" onclick="startGame()">다시 하기</button>
-    <button class="btn outline" onclick="showScreen('home')">홈으로</button>
+  <div class="rb" id="r-rank">순위 계산 중...</div>
+  <div class="gap" style="width:100%;">
+    <button class="btn acc" onclick="saveAndRanking()">🏆 랭킹 등록 & 확인</button>
+    <button class="btn out" onclick="startGame()">다시 하기</button>
+    <button class="btn out" onclick="go('home')">홈으로</button>
   </div>
 </div>
 
 <!-- RANKING -->
 <div class="screen" id="ranking">
   <h1>야가다</h1>
-  <div class="rank-tabs">
-    <button class="rank-tab active" id="tab-week" onclick="switchTab('week')">이번 주 🔥</button>
-    <button class="rank-tab" id="tab-all" onclick="switchTab('all')">전체 기록</button>
+  <div class="rtabs">
+    <button class="rtab active" id="tab-w" onclick="switchTab('w')">이번 주 🔥</button>
+    <button class="rtab" id="tab-a" onclick="switchTab('a')">전체 기록</button>
   </div>
-  <div class="week-label" id="week-label"></div>
-  <div class="rank-list" id="rank-list"><div class="empty-rank">불러오는 중...</div></div>
-  <div class="btn-group" style="margin-top:4px;">
+  <div class="wl" id="r-wlabel"></div>
+  <div class="rlist" id="rlist"><div class="empty">불러오는 중...</div></div>
+  <div class="gap" style="margin-top:4px;">
     <button class="btn" onclick="startGame()">도전하기</button>
-    <button class="btn outline" onclick="showScreen('home')">홈으로</button>
+    <button class="btn out" onclick="go('home')">홈으로</button>
   </div>
 </div>
 
 <script>
+// =====================
+// CONSTANTS
+// =====================
 const SHAPES = ['circle','triangle','rect','star'];
-const SHAPE_NAMES = {circle:'동그라미', triangle:'세모', rect:'네모', star:'별'};
-const TOTAL_STAGES = 50;
-const STAGE_TARGETS = [
-  3,5,7,10,13,
-  16,20,25,30,40,
-  50,65,80,100,120,
-  150,180,220,270,330,
-  400,480,570,680,800,
-  950,1200,1500,1900,2400,
-  3000,3800,4800,6000,7500,
-  9500,12000,16000,21000,28000,
-  37000,50000,65000,85000,115000,
-  155000,220000,350000,600000,1000000
+const SNAMES = {circle:'동그라미', triangle:'세모', rect:'네모', star:'별'};
+const TOTAL = 50;
+const TARGETS = [
+  3,5,7,10,13,16,20,25,30,40,
+  50,65,80,100,120,150,180,220,270,330,
+  400,480,570,680,800,950,1200,1500,1900,2400,
+  3000,3800,4800,6000,7500,9500,12000,16000,21000,28000,
+  37000,50000,65000,85000,115000,155000,220000,350000,600000,1000000
 ];
 
-function getTarget(s) { return STAGE_TARGETS[Math.min(s-1, STAGE_TARGETS.length-1)]; }
+// =====================
+// STATE
+// =====================
+let uName = localStorage.getItem('yg-name') || '';
+let curStage=1, curShape='circle', done=0, drawn=0, target=3, passed=0;
+let drawing=false, pts=[], locked=false;
+let gStart=0, timerInt=null, curTab='w';
 
-let currentStage=1, currentShape='circle', doneCount=0, totalDrawn=0, targetCount=3, passCount=0;
-let isDrawing=false, points=[], submitLocked=false, currentRankingTab='week';
+const tgt = s => TARGETS[Math.min(s-1, TARGETS.length-1)];
 
-function showScreen(id) {
+// =====================
+// SCREEN
+// =====================
+function go(id) {
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
+function init() {
+  if(uName) { go('home'); refreshHome(); }
+  else go('ob');
+}
+
+// =====================
+// ONBOARDING
+// =====================
+function startWithNick() {
+  const v = document.getElementById('ob-nick').value.trim();
+  if(!v) { alert('닉네임을 입력해주세요!'); return; }
+  uName = v;
+  localStorage.setItem('yg-name', uName);
+  go('home'); refreshHome();
+}
+function socialLogin(type) {
+  const v = document.getElementById('ob-nick').value.trim();
+  if(!v) { alert('먼저 닉네임을 입력해주세요!'); return; }
+  uName = v;
+  localStorage.setItem('yg-name', uName);
+  const label = {kakao:'카카오', google:'Google', apple:'Apple'}[type];
+  alert(`${label} 로그인은 앱 출시 후 지원 예정이에요!\n지금은 닉네임으로 시작할게요 😊`);
+  go('home'); refreshHome();
+}
+function skipLogin() {
+  uName = '게스트_' + Math.floor(Math.random()*9000+1000);
+  localStorage.setItem('yg-name', uName);
+  go('home'); refreshHome();
+}
+
+// =====================
+// HOME
+// =====================
+function refreshHome() {
+  document.getElementById('home-uname').textContent = uName||'–';
+  loadHomePreview();
+}
+
+async function loadHomePreview() {
+  try {
+    let weekly=[];
+    try{const r=await window.storage.get('yg-w-'+wk(),true);if(r)weekly=JSON.parse(r.value);}catch(e){}
+    const rankEl = document.getElementById('home-urank');
+    const idx = weekly.findIndex(r=>r.name===uName);
+    rankEl.textContent = idx>=0 ? `이번 주 ${idx+1}위 🔥` : '랭킹 없음';
+    const el = document.getElementById('home-preview');
+    if(!el) return;
+    if(weekly.length===0){
+      el.innerHTML='<p style="font-size:.72rem;color:var(--muted);text-align:center;padding:8px 0;">이번 주 기록이 없어요!</p>';
+      return;
+    }
+    el.innerHTML = '<div style="font-size:.68rem;color:var(--muted);letter-spacing:2px;text-align:center;margin-bottom:6px;text-transform:uppercase;">이번 주 TOP 3</div>'
+      + weekly.slice(0,3).map((r,i)=>{
+        const m=i===0?'🥇':i===1?'🥈':'🥉';
+        const me=r.name===uName;
+        return `<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:${me?'#fff5f5':'#fff'};border:1.5px solid ${me?'#e63946':'#e0d9ce'};margin-bottom:4px;">
+          <span>${m}</span>
+          <span style="flex:1;font-weight:700;font-size:.85rem;">${r.name}${me?' 👈':''}</span>
+          <span style="font-family:'Black Han Sans',sans-serif;color:#e63946;font-size:.82rem;">ST.${r.stage}</span>
+          <span style="font-size:.68rem;color:#9e9e9e;">⏱${ft(r.sec)}</span>
+        </div>`;
+      }).join('');
+  } catch(e){}
+}
+
+// =====================
+// GAME
+// =====================
 function startGame() {
-  currentStage=1; doneCount=0; totalDrawn=0; passCount=0;
-  targetCount=getTarget(1);
-  pickShape(); updateGameUI(); clearCanvas();
-  showScreen('game');
+  curStage=1; done=0; drawn=0; passed=0;
+  target=tgt(1); gStart=Date.now();
+  pickShape(); updateUI(); clearCv();
+  startTimer(); go('game'); updateLiveRank();
+}
+
+function startTimer() {
+  if(timerInt) clearInterval(timerInt);
+  timerInt = setInterval(()=>{
+    const e=Math.floor((Date.now()-gStart)/1000);
+    document.getElementById('g-time').textContent=`${Math.floor(e/60)}:${String(e%60).padStart(2,'0')}`;
+  },500);
 }
 
 function pickShape() {
-  currentShape = SHAPES[Math.floor(Math.random()*SHAPES.length)];
-  document.getElementById('shape-name').textContent = SHAPE_NAMES[currentShape];
-  document.getElementById('target-shape-svg').innerHTML = shapeToSVG(currentShape, 52);
+  curShape = SHAPES[Math.floor(Math.random()*SHAPES.length)];
+  document.getElementById('g-sname').textContent = SNAMES[curShape];
+  document.getElementById('tsvg').innerHTML = makeSVG(curShape);
 }
 
-function shapeToSVG(shape, size) {
-  const h = size/2;
-  if (shape==='circle') return `<circle cx="${h}" cy="${h}" r="${h*.74}" fill="none" stroke="#1a1a1a" stroke-width="3"/>`;
-  if (shape==='triangle') return `<polygon points="${h},${h*.18} ${h*1.82},${h*1.82} ${h*.18},${h*1.82}" fill="none" stroke="#e63946" stroke-width="3"/>`;
-  if (shape==='rect') return `<rect x="${h*.18}" y="${h*.18}" width="${h*1.64}" height="${h*1.64}" fill="none" stroke="#1a1a1a" stroke-width="3"/>`;
-  if (shape==='star') {
-    let pts=[];
-    for(let i=0;i<10;i++){const a=(i*Math.PI/5)-Math.PI/2;const r=i%2===0?h*.76:h*.3;pts.push(`${h+r*Math.cos(a)},${h+r*Math.sin(a)}`);}
-    return `<polygon points="${pts.join(' ')}" fill="none" stroke="#e63946" stroke-width="3"/>`;
-  }
+function makeSVG(s) {
+  const h=44;
+  if(s==='circle') return `<circle cx="${h}" cy="${h}" r="${h*.74}" fill="none" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round"/>`;
+  if(s==='triangle') return `<polygon points="${h},${h*.15} ${h*1.85},${h*1.85} ${h*.15},${h*1.85}" fill="none" stroke="#e63946" stroke-width="4" stroke-linejoin="round"/>`;
+  if(s==='rect') return `<rect x="${h*.15}" y="${h*.15}" width="${h*1.7}" height="${h*1.7}" fill="none" stroke="#1a1a1a" stroke-width="4" stroke-linejoin="round"/>`;
+  if(s==='star'){let p=[];for(let i=0;i<10;i++){const a=(i*Math.PI/5)-Math.PI/2;const r=i%2===0?h*.78:h*.32;p.push(`${h+r*Math.cos(a)},${h+r*Math.sin(a)}`);}return `<polygon points="${p.join(' ')}" fill="none" stroke="#e63946" stroke-width="4" stroke-linejoin="round"/>`;}
 }
 
-function updateGameUI() {
-  document.getElementById('stage-num').textContent = currentStage;
-  document.getElementById('target-count').textContent = targetCount.toLocaleString();
-  document.getElementById('done-count').textContent = doneCount.toLocaleString();
-  document.getElementById('need-count').textContent = targetCount.toLocaleString();
-  document.getElementById('pass-count').textContent = passCount;
-  document.getElementById('total-drawn').textContent = totalDrawn;
-  const pct = Math.min(doneCount/targetCount*100,100);
-  document.getElementById('progress-fill').style.width = pct+'%';
-  document.getElementById('progress-pct').textContent = Math.round(pct)+'%';
-  const map = document.getElementById('stage-map');
-  map.innerHTML = '';
-  for(let i=1;i<=TOTAL_STAGES;i++){
-    const d=document.createElement('div');
-    d.className='stage-dot'+(i<currentStage?' done':i===currentStage?' current':'');
-    map.appendChild(d);
-  }
+function updateUI() {
+  document.getElementById('g-stage').textContent=curStage;
+  document.getElementById('g-target').textContent=target.toLocaleString();
+  document.getElementById('g-done').textContent=done.toLocaleString();
+  document.getElementById('g-need').textContent=target.toLocaleString();
+  document.getElementById('g-pass').textContent=passed;
+  const p=Math.min(done/target*100,100);
+  document.getElementById('g-pfill').style.width=p+'%';
+  document.getElementById('g-ppct').textContent=Math.round(p)+'%';
 }
 
-// CANVAS
-const canvas = document.getElementById('draw-canvas');
-const ctx = canvas.getContext('2d');
-
-function resizeCanvas() {
-  const wrap = document.getElementById('canvas-wrap');
-  const w = wrap.clientWidth;
-  if(canvas.width!==w){canvas.width=w; canvas.height=260;}
-}
-
-function clearCanvas() {
-  resizeCanvas();
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  points=[];
-  document.getElementById('sim-val').textContent='–';
-  document.getElementById('canvas-overlay').className='canvas-overlay';
-}
-
-function getPos(e) {
-  const rect = canvas.getBoundingClientRect();
-  const sx=canvas.width/rect.width, sy=canvas.height/rect.height;
-  if(e.touches&&e.touches.length>0) return {x:(e.touches[0].clientX-rect.left)*sx, y:(e.touches[0].clientY-rect.top)*sy};
-  if(e.changedTouches&&e.changedTouches.length>0) return {x:(e.changedTouches[0].clientX-rect.left)*sx, y:(e.changedTouches[0].clientY-rect.top)*sy};
-  return {x:(e.clientX-rect.left)*sx, y:(e.clientY-rect.top)*sy};
-}
-
-function startStroke(e) {
-  if(submitLocked) return;
-  isDrawing=true; points=[];
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  document.getElementById('canvas-overlay').className='canvas-overlay';
-  const p=getPos(e); points.push(p);
-  ctx.beginPath(); ctx.moveTo(p.x,p.y);
-  ctx.strokeStyle='#1a1a1a'; ctx.lineWidth=3; ctx.lineCap='round'; ctx.lineJoin='round';
-}
-
-function continueStroke(e) {
-  if(!isDrawing) return;
-  const p=getPos(e); points.push(p);
-  ctx.lineTo(p.x,p.y); ctx.stroke();
-}
-
-function endStroke() {
-  if(!isDrawing) return;
-  isDrawing=false;
-  if(points.length<5) return;
-  submitLocked=true;
-  setTimeout(()=>{submitDrawing(); submitLocked=false;}, 180);
-}
-
-canvas.addEventListener('mousedown', e=>{e.preventDefault();startStroke(e);});
-canvas.addEventListener('mousemove', e=>{continueStroke(e);});
-canvas.addEventListener('mouseup', e=>{e.preventDefault();endStroke();});
-canvas.addEventListener('mouseleave', ()=>{if(isDrawing)endStroke();});
-canvas.addEventListener('touchstart', e=>{e.preventDefault();startStroke(e);},{passive:false});
-canvas.addEventListener('touchmove', e=>{e.preventDefault();continueStroke(e);},{passive:false});
-canvas.addEventListener('touchend', e=>{e.preventDefault();endStroke();},{passive:false});
-
-// SIMILARITY
-function calcSim() {
-  if(points.length<5) return 0;
-  const xs=points.map(p=>p.x), ys=points.map(p=>p.y);
-  const minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys);
-  const w=maxX-minX,h=maxY-minY;
-  if(w<10||h<10) return 0;
-  const norm=points.map(p=>({x:(p.x-minX)/w,y:(p.y-minY)/h}));
-  const closed=()=>{const s=norm[0],e=norm[norm.length-1];return Math.sqrt((s.x-e.x)**2+(s.y-e.y)**2)<0.38;};
-  if(currentShape==='circle'){
-    const ratio=Math.min(w,h)/Math.max(w,h);
-    if(ratio<0.35) return 15;
-    const cx=0.5,cy=0.5;
-    const dists=norm.map(p=>Math.sqrt((p.x-cx)**2+(p.y-cy)**2));
-    const avg=dists.reduce((a,b)=>a+b,0)/dists.length;
-    const variance=dists.map(d=>(d-avg)**2).reduce((a,b)=>a+b,0)/dists.length;
-    return Math.min(100,Math.round(Math.max(0,100-variance*500)*ratio*(closed()?1:0.55)));
-  }
-  if(currentShape==='triangle'){
-    let changes=0,lastDir=null;
-    for(let i=1;i<norm.length;i++){
-      const dx=norm[i].x-norm[i-1].x,dy=norm[i].y-norm[i-1].y;
-      const angle=Math.atan2(dy,dx);
-      if(lastDir!==null){let d=Math.abs(angle-lastDir);if(d>Math.PI)d=2*Math.PI-d;if(d>0.75)changes++;}
-      lastDir=angle;
+async function updateLiveRank() {
+  try {
+    let weekly=[];
+    try{const r=await window.storage.get('yg-w-'+wk(),true);if(r)weekly=JSON.parse(r.value);}catch(e){}
+    const elapsed=(Date.now()-gStart)/1000;
+    let rank=1;
+    for(const r of weekly){
+      if(r.stage>curStage) rank++;
+      else if(r.stage===curStage&&r.sec<elapsed) rank++;
     }
-    return Math.min(100,(changes>=2&&changes<=7?45:15)+(closed()?30:0)+25);
+    document.getElementById('g-lrank').textContent=`${rank}위 / ${weekly.length+1}명`;
+  } catch(e){}
+}
+
+function quitGame() {
+  clearInterval(timerInt);
+  go('home');
+  refreshHome();
+}
+
+// =====================
+// CANVAS
+// =====================
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+
+function resizeCv() {
+  const wrap = document.getElementById('cwrap');
+  cv.width = wrap.clientWidth || 320;
+  cv.height = 250;
+  ctx.strokeStyle = '#1a1a1a';
+  ctx.lineWidth = 4;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+}
+
+function clearCv() {
+  resizeCv();
+  ctx.clearRect(0,0,cv.width,cv.height);
+  pts=[];
+  document.getElementById('g-sim').textContent='–';
+  document.getElementById('cov').className='cov';
+}
+
+function getXY(e) {
+  const r=cv.getBoundingClientRect();
+  const sx=cv.width/r.width, sy=cv.height/r.height;
+  const src = e.touches ? e.touches[0] : e.changedTouches ? e.changedTouches[0] : e;
+  return {x:(src.clientX-r.left)*sx, y:(src.clientY-r.top)*sy};
+}
+
+// 전체 포인트를 매번 다시 그리는 방식 - 선이 반드시 보임
+function redraw() {
+  ctx.clearRect(0,0,cv.width,cv.height);
+  if(pts.length < 2) return;
+  ctx.save();
+  ctx.strokeStyle = '#1a1a1a';
+  ctx.lineWidth = 4;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.globalAlpha = 1.0;
+  ctx.beginPath();
+  ctx.moveTo(pts[0].x, pts[0].y);
+  for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x, pts[i].y);
+  ctx.stroke();
+  ctx.restore();
+}
+
+cv.addEventListener('mousedown', e=>{
+  if(locked) return;
+  e.preventDefault();
+  drawing=true; pts=[];
+  document.getElementById('cov').className='cov';
+  const p=getXY(e);
+  pts.push(p);
+  // 즉시 점 하나 그려서 응답 확인
+  ctx.save();
+  ctx.fillStyle='#1a1a1a';
+  ctx.beginPath();
+  ctx.arc(p.x,p.y,3,0,Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+});
+cv.addEventListener('mousemove', e=>{
+  if(!drawing) return;
+  pts.push(getXY(e));
+  redraw();
+});
+cv.addEventListener('mouseup', e=>{
+  if(!drawing) return;
+  e.preventDefault();
+  drawing=false;
+  if(pts.length<10) return;
+  locked=true;
+  setTimeout(()=>{ judge(); locked=false; },200);
+});
+cv.addEventListener('mouseleave', ()=>{ if(drawing){ drawing=false; if(pts.length>=10){ locked=true; setTimeout(()=>{ judge(); locked=false; },200); } } });
+
+cv.addEventListener('touchstart', e=>{
+  if(locked) return;
+  e.preventDefault();
+  drawing=true; pts=[];
+  document.getElementById('cov').className='cov';
+  const p=getXY(e);
+  pts.push(p);
+  ctx.save();
+  ctx.fillStyle='#1a1a1a';
+  ctx.beginPath();
+  ctx.arc(p.x,p.y,3,0,Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+},{passive:false});
+cv.addEventListener('touchmove', e=>{
+  if(!drawing) return;
+  e.preventDefault();
+  pts.push(getXY(e));
+  redraw();
+},{passive:false});
+cv.addEventListener('touchend', e=>{
+  if(!drawing) return;
+  e.preventDefault();
+  drawing=false;
+  if(pts.length<10) return;
+  locked=true;
+  setTimeout(()=>{ judge(); locked=false; },200);
+},{passive:false});
+
+// =====================
+// SIMILARITY
+// =====================
+function sim() {
+  if(pts.length < 10) return 0;
+  const xs=pts.map(p=>p.x), ys=pts.map(p=>p.y);
+  const x0=Math.min(...xs), x1=Math.max(...xs);
+  const y0=Math.min(...ys), y1=Math.max(...ys);
+  const w=x1-x0, h=y1-y0;
+  if(w<20||h<20) return 0;
+
+  const N=pts.map(p=>({x:(p.x-x0)/w, y:(p.y-y0)/h}));
+
+  // 닫힘: 시작~끝 거리
+  const closeDist = Math.sqrt((N[0].x-N[N.length-1].x)**2+(N[0].y-N[N.length-1].y)**2);
+  const closed = closeDist < 0.45;
+
+  if(curShape==='circle') {
+    // 중심 계산
+    const cx=N.reduce((s,p)=>s+p.x,0)/N.length;
+    const cy=N.reduce((s,p)=>s+p.y,0)/N.length;
+    // 중심에서 거리 균일성
+    const ds=N.map(p=>Math.sqrt((p.x-cx)**2+(p.y-cy)**2));
+    const avg=ds.reduce((a,b)=>a+b,0)/ds.length;
+    const variance=ds.map(d=>(d-avg)**2).reduce((a,b)=>a+b,0)/ds.length;
+    // 비율
+    const ratio=Math.min(w,h)/Math.max(w,h);
+    let score = Math.max(0,1-variance*6) * ratio * 100;
+    if(closed) score = Math.min(100, score*1.15);
+    return Math.round(Math.min(100,score));
   }
-  if(currentShape==='rect'){
-    const near=norm.filter(p=>Math.min(p.x,1-p.x,p.y,1-p.y)<0.22).length/norm.length;
-    return Math.min(100,Math.round(near*70)+(closed()?30:0));
+
+  if(curShape==='triangle') {
+    // 방향 전환 횟수
+    let turns=0, prev=null;
+    for(let i=2;i<N.length;i++){
+      const dx=N[i].x-N[i-2].x, dy=N[i].y-N[i-2].y;
+      if(Math.abs(dx)<.004&&Math.abs(dy)<.004) continue;
+      const a=Math.atan2(dy,dx);
+      if(prev!==null){let d=Math.abs(a-prev);if(d>Math.PI)d=2*Math.PI-d;if(d>.7)turns++;}
+      prev=a;
+    }
+    let score=25;
+    if(turns>=1&&turns<=8) score=60+Math.min(turns,2)*10;
+    if(closed) score=Math.min(100,score+20);
+    return score;
   }
-  if(currentShape==='star'){
-    const dists=norm.map(p=>Math.sqrt((p.x-.5)**2+(p.y-.5)**2));
-    let peaks=0;
-    for(let i=1;i<dists.length-1;i++) if(dists[i]>dists[i-1]&&dists[i]>dists[i+1]&&dists[i]>0.22)peaks++;
-    return Math.min(100,Math.min(peaks*14,65)+(closed()?35:0));
+
+  if(curShape==='rect') {
+    const edge=N.filter(p=>Math.min(p.x,1-p.x)<.22||Math.min(p.y,1-p.y)<.22).length/N.length;
+    let score=Math.round(edge*75);
+    if(closed) score=Math.min(100,score+25);
+    return score;
+  }
+
+  if(curShape==='star') {
+    // 급격한 방향전환
+    let sharp=0, prev=null;
+    for(let i=1;i<N.length;i++){
+      const dx=N[i].x-N[i-1].x, dy=N[i].y-N[i-1].y;
+      if(Math.abs(dx)<.004&&Math.abs(dy)<.004) continue;
+      const a=Math.atan2(dy,dx);
+      if(prev!==null){let d=Math.abs(a-prev);if(d>Math.PI)d=2*Math.PI-d;if(d>0.9)sharp++;}
+      prev=a;
+    }
+    if(sharp>=3) return Math.min(100,40+sharp*7);
+    return sharp*12;
   }
   return 50;
 }
 
-function submitDrawing() {
-  if(points.length<5) return;
-  const sim=calcSim();
-  document.getElementById('sim-val').textContent=sim+'%';
-  totalDrawn++;
-  document.getElementById('total-drawn').textContent=totalDrawn;
-  const ok=sim>=38;
-  if(ok){doneCount++;passCount++;}
-  const ov=document.getElementById('canvas-overlay');
+function judge() {
+  const s=sim();
+  document.getElementById('g-sim').textContent=s+'%';
+  drawn++;
+  const ok=s>=35;
+  if(ok){done++;passed++;}
+  const ov=document.getElementById('cov');
   ov.textContent=ok?'✓':'✗';
-  ov.className='canvas-overlay show '+(ok?'ok':'fail');
-  setTimeout(()=>{ov.className='canvas-overlay';},500);
+  ov.className='cov show '+(ok?'ok':'fail');
+  setTimeout(()=>ov.className='cov',500);
   const fl=document.getElementById('flash');
-  fl.className='flash-overlay '+(ok?'good':'bad');
-  setTimeout(()=>{fl.className='flash-overlay';},400);
-  updateGameUI();
+  fl.className='flash '+(ok?'good':'bad');
+  setTimeout(()=>fl.className='flash',380);
+  updateUI();
+  updateLiveRank();
   setTimeout(()=>{
-    ctx.clearRect(0,0,canvas.width,canvas.height); points=[];
-    if(doneCount>=targetCount){
-      if(currentStage>=TOTAL_STAGES){setTimeout(()=>endGame(),400);}
-      else{currentStage++;doneCount=0;targetCount=getTarget(currentStage);pickShape();updateGameUI();}
+    ctx.clearRect(0,0,cv.width,cv.height); pts=[];
+    if(done>=target){
+      if(curStage>=TOTAL){ clearInterval(timerInt); setTimeout(endGame,400); }
+      else{ curStage++; done=0; target=tgt(curStage); pickShape(); updateUI(); }
     }
   },500);
 }
 
 function endGame() {
-  document.getElementById('result-stage').textContent=currentStage;
-  document.getElementById('result-total').textContent=totalDrawn.toLocaleString();
-  showScreen('result');
+  clearInterval(timerInt);
+  const elapsed=Math.floor((Date.now()-gStart)/1000);
+  const m=Math.floor(elapsed/60),s=elapsed%60;
+  document.getElementById('r-stage').textContent=curStage;
+  document.getElementById('r-time').textContent=`${m}분 ${s}초`;
+  document.getElementById('r-total').textContent=drawn.toLocaleString();
+  calcRank(curStage,elapsed);
+  go('result');
 }
 
-function confirmQuit() { if(confirm('게임을 그만할까요?')) endGame(); }
-
-// WEEK
-function getWeekKey() {
-  const now=new Date(), day=now.getDay();
-  const diff=(day===0?-6:1)-day;
-  const mon=new Date(now); mon.setDate(now.getDate()+diff);
-  return `${mon.getFullYear()}-${String(mon.getMonth()+1).padStart(2,'0')}-${String(mon.getDate()).padStart(2,'0')}`;
+async function calcRank(stage,elapsed){
+  try{
+    let w=[];
+    try{const r=await window.storage.get('yg-w-'+wk(),true);if(r)w=JSON.parse(r.value);}catch(e){}
+    let rank=1;
+    for(const r of w){if(r.stage>stage)rank++;else if(r.stage===stage&&r.sec<elapsed)rank++;}
+    document.getElementById('r-rank').textContent=`이번 주 예상 순위 ${rank}위 / ${w.length+1}명`;
+  }catch(e){document.getElementById('r-rank').textContent='순위 계산 불가';}
 }
 
-function getWeekLabel() {
-  const now=new Date(), day=now.getDay();
-  const diff=(day===0?-6:1)-day;
-  const mon=new Date(now); mon.setDate(now.getDate()+diff);
-  const sun=new Date(mon); sun.setDate(mon.getDate()+6);
-  const f=d=>`${d.getMonth()+1}/${d.getDate()}`;
-  return `${f(mon)} ~ ${f(sun)} 주간 랭킹`;
+// =====================
+// RANKING
+// =====================
+function wk(){
+  const n=new Date(),d=n.getDay(),diff=(d===0?-6:1)-d;
+  const m=new Date(n);m.setDate(n.getDate()+diff);
+  return `${m.getFullYear()}-${String(m.getMonth()+1).padStart(2,'0')}-${String(m.getDate()).padStart(2,'0')}`;
+}
+function wkLabel(){
+  const n=new Date(),d=n.getDay(),diff=(d===0?-6:1)-d;
+  const m=new Date(n);m.setDate(n.getDate()+diff);
+  const s=new Date(m);s.setDate(m.getDate()+6);
+  const f=x=>`${x.getMonth()+1}/${x.getDate()}`;
+  return `${f(m)} ~ ${f(s)} 주간 랭킹`;
+}
+function ft(sec){
+  if(sec==null)return'–';
+  return `${Math.floor(sec/60)}분${String(sec%60).padStart(2,'0')}초`;
 }
 
-async function saveRanking() {
-  const name=document.getElementById('nickname-input').value.trim();
-  if(!name){alert('닉네임을 입력해주세요!');return;}
-  const entry={name,stage:currentStage,total:totalDrawn,date:new Date().toLocaleDateString('ko-KR'),week:getWeekKey()};
-  try {
-    const wKey=`yagada-week-${getWeekKey()}`;
+async function saveAndRanking(){
+  const elapsed=Math.floor((Date.now()-gStart)/1000);
+  const entry={name:uName,stage:curStage,total:drawn,sec:elapsed,date:new Date().toLocaleDateString('ko-KR'),week:wk()};
+  try{
+    const key='yg-w-'+wk();
     let weekly=[];
-    try{const r=await window.storage.get(wKey,true);if(r)weekly=JSON.parse(r.value);}catch(e){}
+    try{const r=await window.storage.get(key,true);if(r)weekly=JSON.parse(r.value);}catch(e){}
     weekly.push(entry);
-    weekly.sort((a,b)=>b.stage!==a.stage?b.stage-a.stage:b.total-a.total);
+    weekly.sort((a,b)=>b.stage!==a.stage?b.stage-a.stage:a.sec-b.sec);
     weekly=weekly.slice(0,100);
-    await window.storage.set(wKey,JSON.stringify(weekly),true);
-
+    await window.storage.set(key,JSON.stringify(weekly),true);
     let all=[];
-    try{const r=await window.storage.get('yagada-all',true);if(r)all=JSON.parse(r.value);}catch(e){}
+    try{const r=await window.storage.get('yg-all',true);if(r)all=JSON.parse(r.value);}catch(e){}
     all.push(entry);
-    all.sort((a,b)=>b.stage!==a.stage?b.stage-a.stage:b.total-a.total);
+    all.sort((a,b)=>b.stage!==a.stage?b.stage-a.stage:a.sec-b.sec);
     all=all.slice(0,200);
-    await window.storage.set('yagada-all',JSON.stringify(all),true);
-
-    alert('🏆 랭킹에 등록됐어요!');
+    await window.storage.set('yg-all',JSON.stringify(all),true);
     showRanking();
-  } catch(e){ alert('저장 실패. 다시 시도해주세요.'); }
+  }catch(e){showRanking();}
 }
 
-async function showRanking() {
-  showScreen('ranking');
-  currentRankingTab='week';
-  document.getElementById('tab-week').className='rank-tab active';
-  document.getElementById('tab-all').className='rank-tab';
-  document.getElementById('week-label').textContent=getWeekLabel();
-  await loadRankTab('week');
+async function showRanking(){
+  go('ranking');
+  curTab='w';
+  document.getElementById('tab-w').className='rtab active';
+  document.getElementById('tab-a').className='rtab';
+  document.getElementById('r-wlabel').textContent=wkLabel();
+  await loadTab('w');
 }
 
-async function switchTab(tab) {
-  currentRankingTab=tab;
-  document.getElementById('tab-week').className='rank-tab'+(tab==='week'?' active':'');
-  document.getElementById('tab-all').className='rank-tab'+(tab==='all'?' active':'');
-  document.getElementById('week-label').textContent=tab==='week'?getWeekLabel():'전체 기록 TOP 20';
-  await loadRankTab(tab);
+async function switchTab(t){
+  curTab=t;
+  document.getElementById('tab-w').className='rtab'+(t==='w'?' active':'');
+  document.getElementById('tab-a').className='rtab'+(t==='a'?' active':'');
+  document.getElementById('r-wlabel').textContent=t==='w'?wkLabel():'전체 기록 TOP 20';
+  await loadTab(t);
 }
 
-async function loadRankTab(tab) {
-  const list=document.getElementById('rank-list');
-  list.innerHTML='<div class="empty-rank">불러오는 중...</div>';
-  try {
-    let rankings=[];
-    const key=tab==='week'?`yagada-week-${getWeekKey()}`:'yagada-all';
-    try{const r=await window.storage.get(key,true);if(r)rankings=JSON.parse(r.value);}catch(e){}
-    if(rankings.length===0){
-      list.innerHTML=`<div class="empty-rank">${tab==='week'?'이번 주 기록이 없어요.<br>첫 번째 도전자가 되어보세요! 🔥':'아직 전체 기록이 없어요!'}</div>`;
+async function loadTab(t){
+  const list=document.getElementById('rlist');
+  list.innerHTML='<div class="empty">불러오는 중...</div>';
+  try{
+    let data=[];
+    const key=t==='w'?'yg-w-'+wk():'yg-all';
+    try{const r=await window.storage.get(key,true);if(r)data=JSON.parse(r.value);}catch(e){}
+    if(data.length===0){
+      list.innerHTML=`<div class="empty">${t==='w'?'이번 주 기록이 없어요.<br>첫 번째 도전자가 되어보세요! 🔥':'아직 전체 기록이 없어요!'}</div>`;
       return;
     }
-    list.innerHTML=rankings.slice(0,20).map((r,i)=>{
-      const cls=i===0?'top1':i===1?'top2':i===2?'top3':'';
+    list.innerHTML=data.slice(0,20).map((r,i)=>{
+      const cls=i===0?'t1':i===1?'t2':i===2?'t3':r.name===uName?'me':'';
       const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
-      return `<div class="rank-item ${cls}">
-        <div class="rank-num">${medal}</div>
-        <div class="rank-info">
-          <div class="rank-name">${r.name}</div>
-          <div class="rank-detail">${r.date} · ${(r.total||0).toLocaleString()}개</div>
+      const me=r.name===uName;
+      return `<div class="ri2 ${cls}">
+        <div class="rn">${medal}</div>
+        <div class="rinfo">
+          <div class="rname">${r.name}${me?' 👈':''}</div>
+          <div class="rdet">${r.date} · ${(r.total||0).toLocaleString()}개</div>
         </div>
-        <div class="rank-stage-badge">STAGE ${r.stage}<span>/ ${TOTAL_STAGES}</span></div>
+        <div class="rright">
+          <div class="rsbadge">STAGE ${r.stage}</div>
+          <div class="rtime">⏱ ${ft(r.sec)}</div>
+        </div>
       </div>`;
     }).join('');
-  } catch(e){ list.innerHTML='<div class="empty-rank">랭킹을 불러올 수 없어요.</div>'; }
+  }catch(e){list.innerHTML='<div class="empty">불러올 수 없어요.</div>';}
 }
 
-resizeCanvas();
-window.addEventListener('resize',()=>{ if(document.getElementById('game').classList.contains('active')) resizeCanvas(); });
+// =====================
+// INIT
+// =====================
+resizeCv();
+window.addEventListener('resize',()=>{ if(document.getElementById('game').classList.contains('active')) resizeCv(); });
+init();
 </script>
 </body>
 </html>
